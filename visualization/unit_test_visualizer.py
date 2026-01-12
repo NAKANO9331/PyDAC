@@ -25,12 +25,12 @@ except ImportError:
 class UnitTestVisualizer:
     """Unit test result visualizer"""
     
-    def __init__(self, output_dir: str = "result"):
+    def __init__(self, output_dir: str = "result/unit_tests"):
         """
         Initialize the visualizer
         
         Args:
-            output_dir: Output directory path
+            output_dir: Output directory path (default: result/unit_tests)
         """
         if not HAS_MATPLOTLIB:
             raise ImportError(

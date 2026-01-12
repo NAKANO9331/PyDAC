@@ -730,7 +730,7 @@ def main():
         "--output",
         type=str,
         default=None,
-        help="Output JSON report file path (default: result/test_report.json)"
+        help="Output JSON report file path (default: result/dacpp_tests/test_report.json)"
     )
     
     parser.add_argument(
@@ -758,8 +758,8 @@ def main():
     if args.test_dir:
         test_dir = Path(args.test_dir).resolve()
     else:
-        script_dir = Path(__file__).parent.absolute()
-        pydac_dir = script_dir.parent.absolute()
+        script_dir = Path(__file__).parent.absolute()  # scripts/test
+        pydac_dir = script_dir.parent.parent.absolute()  # Project root (PyDAC-main)
         dacpp_dir = pydac_dir.parent.absolute()
         # Try multiple possible paths (including PyDAC project translator/tests)
         possible_paths = [
@@ -784,10 +784,10 @@ def main():
             print(f"   Please use --test-dir to specify the correct path")
             sys.exit(1)
     
-    # Determine output directory (default: result)
+    # Determine output directory (default: result/dacpp_tests)
     script_dir = Path(__file__).parent.absolute()
-    pydac_dir = script_dir.parent.absolute()
-    default_result_dir = pydac_dir / "result"
+    pydac_dir = script_dir.parent.parent.absolute()  # Project root
+    default_result_dir = pydac_dir / "result" / "dacpp_tests"
     default_result_dir.mkdir(parents=True, exist_ok=True)
     
     # Set default output path if not specified
@@ -797,8 +797,12 @@ def main():
         # If relative path is provided, ensure it goes to result directory
         output_path = Path(args.output)
         if not output_path.is_absolute():
-            # Relative path - put it in result directory
-            args.output = str(default_result_dir / output_path.name)
+            # If path doesn't contain a subdirectory, use dacpp_tests
+            if "/" not in str(output_path) and "\\" not in str(output_path):
+                args.output = str(default_result_dir / output_path.name)
+            else:
+                # Preserve subdirectory structure if specified
+                args.output = str(pydac_dir / "result" / output_path)
     
     
     # Initialize

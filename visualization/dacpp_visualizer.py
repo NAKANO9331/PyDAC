@@ -24,12 +24,12 @@ except ImportError:
 class DACPPVisualizer:
     """DACPP test result visualizer"""
     
-    def __init__(self, output_dir: str = "result"):
+    def __init__(self, output_dir: str = "result/dacpp_tests"):
         """
         Initialize the visualizer
         
         Args:
-            output_dir: Output directory path
+            output_dir: Output directory path (default: result/dacpp_tests)
         """
         if not HAS_MATPLOTLIB:
             raise ImportError(
@@ -465,9 +465,11 @@ class DACPPVisualizer:
                           color=colors, edgecolor='black', linewidth=1.2)
             
             # Add raw mean value annotations
-            for bar, raw_mean in zip(bars, raw_means):
+            for bar, raw_mean, std in zip(bars, raw_means, stds):
                 height = bar.get_height()
-                ax2.text(bar.get_x() + bar.get_width()/2., height + bar.get_yerr()[1] + 0.02,
+                # Calculate position above error bar: height + std + small offset
+                y_pos = height + std + 0.02
+                ax2.text(bar.get_x() + bar.get_width()/2., y_pos,
                         f'{raw_mean:.1f}', ha='center', va='bottom', fontweight='bold')
             
             ax2.set_ylabel('Normalized Value (0-1)', fontweight='bold')

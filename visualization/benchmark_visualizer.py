@@ -22,7 +22,7 @@ except ImportError:
     plt = None
     np = None
 
-from .benchmark import BenchmarkResult, ComparisonResult
+from pydac.utils.benchmark import BenchmarkResult, ComparisonResult
 
 
 class PerformanceVisualizer:

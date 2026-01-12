@@ -68,9 +68,9 @@ from .error_classifier import (
  ClassifiedError,
 )
 
-# Optional visualization
+# Optional visualization (moved to visualization/ directory)
 try:
-    from .visualization import PerformanceVisualizer
+    from visualization.benchmark_visualizer import PerformanceVisualizer
     HAS_VISUALIZATION = True
 except (ImportError, SyntaxError, IndentationError):
     HAS_VISUALIZATION = False

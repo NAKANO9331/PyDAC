@@ -25,12 +25,12 @@ except ImportError:
 class DSLVisualizer:
     """DSL test result visualizer - Core test visualization for the project"""
     
-    def __init__(self, output_dir: str = "result"):
+    def __init__(self, output_dir: str = "result/dsl_tests"):
         """
         Initialize the visualizer
         
         Args:
-            output_dir: Output directory path
+            output_dir: Output directory path (default: result/dsl_tests)
         """
         if not HAS_MATPLOTLIB:
             raise ImportError(
@@ -666,10 +666,14 @@ class DSLVisualizer:
         summary = data.get('summary', {})
         comparison_stats = summary.get('comparison_stats', {})
         
-        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig = plt.figure(figsize=(16, 12))
+        
+        # Create a 2x2 grid layout
+        # Top row: two subplots
+        # Bottom row: one subplot spanning both columns
         
         # 1. Output consistency statistics (pie chart)
-        ax1 = axes[0, 0]
+        ax1 = plt.subplot2grid((2, 2), (0, 0))
         
         if comparison_stats:
             output_identical = comparison_stats.get('output_identical', 0)
@@ -696,7 +700,7 @@ class DSLVisualizer:
             ax1.set_title('Output Consistency Statistics', fontweight='bold', pad=10)
         
         # 2. Interface validation status (bar chart)
-        ax2 = axes[0, 1]
+        ax2 = plt.subplot2grid((2, 2), (0, 1))
         
         if comparison_stats:
             interface_valid = comparison_stats.get('interface_valid', False)
@@ -727,8 +731,8 @@ class DSLVisualizer:
                     fontsize=14, transform=ax2.transAxes)
             ax2.set_title('Interface Validation Status', fontweight='bold', pad=10)
         
-        # 3. Test case comparison results (horizontal bar chart)
-        ax3 = axes[1, :]
+        # 3. Test case comparison results (horizontal bar chart) - spans both columns
+        ax3 = plt.subplot2grid((2, 2), (1, 0), colspan=2)
         
         # Extract tests with comparison data
         comparison_data = []

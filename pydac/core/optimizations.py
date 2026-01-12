@@ -175,20 +175,3 @@ class ProcessPool:
         file_sizes.sort(key=lambda x: x[1])
         return [path for path, _ in file_sizes]
 
-
-# Import memory and I/O optimization utilities
-    from ..utils.memory import (
- StreamingFileReader,
- MemoryPool,
- BufferedFileWriter,
- process_file_streaming,
- estimate_memory_usage
-    )
-
-    from ..utils.io_optimizer import (
- BatchFileOperator,
- AsyncFileOperator,
- optimize_file_reads
-    )
-
-

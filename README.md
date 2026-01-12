@@ -8,17 +8,6 @@ PyDAC is a Python interface for the DACPP (Data Associated Computing) source-to-
 
 > **Important Note**: PyDAC is the Python interface for DACPP. **This project includes a pre-built translator executable** (located in the `translator/bin/` directory) that can be used directly without additional setup or building.
 
-## Core Features
-
-- **Concise Python API**: Easy-to-use interface, lowering the barrier to entry
-- **Multi-Mode Translation**: Support for USM, Buffer, USM Time, MPI, and Standard SYCL modes
-- **Code Generation**: DSL support (Shell and Calc definitions) and template-based code generation
-- **Tensor Abstraction**: Seamless NumPy integration for data conversion
-- **Automatic Compilation**: Intelligent compilation management with caching mechanism
-- **Code Analysis**: Automatic structure analysis and verification
-- **Performance Optimization**: Result caching (4.68x - 5.87x speedup), async operations, batch processing
-- **Complete Toolchain**: From code translation to testing and visualization
-
 ## Project Structure
 
 ```
@@ -26,34 +15,36 @@ PyDAC/
 ├── pydac/                    # Main code directory
 │   ├── core/                 # Core module (translator, compiler, engine)
 │   ├── dsl/                  # DSL module (Shell, Calc, Expression)
-│   ├── generator/            # Code generation module
 │   ├── analyzer/             # Code analysis module
 │   ├── tensor/               # Tensor module
 │   └── utils/                # Utility module
 ├── translator/               # Translator related
 │   ├── bin/                  # Translator executable
 │   └── tests/                # DACPP test cases
-├── tests/                    # Unit tests
+├── tests/                    # Test cases
 │   ├── unit/                 # Unit tests
-│   └── pydac/                # PyDAC DSL test cases
+│   └── pydac/                # PyDAC DSL test cases (12 test cases)
 ├── scripts/                  # Utility scripts
 │   ├── test/                 # Test scripts
-│   │   ├── test_pydac_dsl_cases.py      # PyDAC DSL test runner
+│   │   ├── test_pydac_dsl_cases.py      # DSL test runner (recommended)
 │   │   └── comprehensive_test_dacpp_cases.py  # DACPP test runner
 │   └── setup/                # Setup scripts
 │       └── setup_translator.sh           # Translator setup script
-├── visualization/            # Visualization modules
+├── visualization/            # Visualization modules (all unified here)
 │   ├── dsl_visualizer.py     # DSL test visualization
 │   ├── dacpp_visualizer.py   # DACPP test visualization
 │   ├── unit_test_visualizer.py # Unit test visualization
+│   ├── benchmark_visualizer.py # Performance benchmark visualization
 │   └── generate_visualizations.py # Main visualization script
+├── result/                   # Test results and visualizations (organized by type)
+│   ├── dsl_tests/            # DSL test results and charts
+│   ├── dacpp_tests/         # DACPP test results and charts
+│   └── unit_tests/          # Unit test results and charts
 ├── pyproject.toml            # Project configuration and dependencies
 └── README.md                 # This file
 ```
 
-## Documentation
-
-For detailed usage instructions and reference documentation, please see:
+## Quick Links
 
 - **[Command Reference](COMMAND_REFERENCE.md)** - Complete installation guide, usage instructions, and all available commands
 
@@ -103,7 +94,7 @@ The project uses `pyproject.toml` for dependency management. You can install:
 - **With documentation**: `pip install -e .[docs]` (sphinx, sphinx-rtd-theme)
 - **Everything**: `pip install -e .[all]`
 
-## Performance
+## Performance Optimization
 
 PyDAC includes multiple performance optimization mechanisms:
 
@@ -113,14 +104,30 @@ PyDAC includes multiple performance optimization mechanisms:
 - **Async Operations**: Non-blocking concurrent processing
 - **Memory Optimization**: Streaming processing for large files
 
-## Testing
+## Testing and Visualization
+
+### Test Coverage
 
 PyDAC includes comprehensive test coverage:
 
-- **28 test functions**: Covering all major features
 - **Unit Tests**: Independent module testing (config, DSL, tensor, translator)
-- **Integration Tests**: Complete workflow testing
-- **Performance Tests**: Performance optimization verification
+- **DSL Tests** (Recommended, Most Important): 12 test cases reimplemented using PyDAC DSL
+  - Tests both USM and Buffer modes by default
+  - Compares DSL-generated code with original test cases
+  - Output saved to `result/dsl_tests/`
+- **DACPP Tests**: Direct testing of original DACPP test cases
+  - Code analysis, translation, compilation, and execution
+  - Output saved to `result/dacpp_tests/`
+
+### Visualization
+
+Comprehensive performance analysis charts are available:
+
+- All visualization modules unified in `visualization/` directory
+- Results organized in `result/` subdirectories by test type
+- Supports DSL, DACPP, and unit test visualizations
+
+For detailed testing instructions and complete command reference, see [Command Reference](COMMAND_REFERENCE.md).
 
 ## Contact
 

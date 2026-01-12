@@ -11,7 +11,6 @@ __author__ = "PyDAC Team"
 from .core.translator import PyDAC
 from .tensor.tensor import Tensor
 from .dsl import Shell, Calc, Expression, ExpressionBuilder
-from .generator import CodeGenerator
 from .analyzer import CodeAnalyzer, CodeAnalyze
 
 __all__ = [
@@ -21,7 +20,6 @@ __all__ = [
     "Calc",
     "Expression",
     "ExpressionBuilder",
-    "CodeGenerator",
     "CodeAnalyzer",
     "CodeAnalyze",
 ]

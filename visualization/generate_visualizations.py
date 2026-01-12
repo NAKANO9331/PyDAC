@@ -27,16 +27,16 @@ def main():
         epilog="""
 Example usage:
   # Generate PyDAC test visualizations (most important!)
-  python visualization/generate_visualizations.py --type dsl --input result/pydac_test_report.json
+  python visualization/generate_visualizations.py --type dsl --input result/dsl_tests/pydac_test_report.json
   
   # Generate DACPP test visualizations
-  python visualization/generate_visualizations.py --type dacpp --input result/test_report.json
+  python visualization/generate_visualizations.py --type dacpp --input result/dacpp_tests/test_report.json
   
   # Generate unit test visualizations
-  python visualization/generate_visualizations.py --type unit --input result/unit_test_results.json
+  python visualization/generate_visualizations.py --type unit --input result/unit_tests/unit_test_results.json
   
   # Auto-detect type
-  python visualization/generate_visualizations.py --input result/pydac_test_report.json
+  python visualization/generate_visualizations.py --input result/dsl_tests/pydac_test_report.json
         """
     )
     
@@ -66,8 +66,47 @@ Example usage:
     
     # Check input file
     input_path = Path(args.input)
+    
+    # If relative path, try multiple possible locations
+    if not input_path.is_absolute():
+        searched_paths = []
+        # Try current directory first
+        if input_path.exists():
+            input_path = input_path.resolve()
+        else:
+            searched_paths.append(input_path.resolve())
+            # Try relative to project root
+            project_input = project_root / input_path
+            if project_input.exists():
+                input_path = project_input
+            else:
+                searched_paths.append(project_input)
+                # Try in result directory
+                result_input = project_root / "result" / input_path.name
+                if result_input.exists():
+                    input_path = result_input
+                else:
+                    searched_paths.append(result_input)
+                    # Try in result subdirectories (dacpp_tests, unit_tests)
+                    for subdir in ["dacpp_tests", "unit_tests"]:
+                        subdir_input = project_root / "result" / subdir / input_path.name
+                        if subdir_input.exists():
+                            input_path = subdir_input
+                            break
+                        searched_paths.append(subdir_input)
+                    else:
+                        # Try in scripts/result directory
+                        scripts_result_input = project_root / "scripts" / "result" / input_path.name
+                        if scripts_result_input.exists():
+                            input_path = scripts_result_input
+                        else:
+                            searched_paths.append(scripts_result_input)
+    
     if not input_path.exists():
-        print(f"Error: Input file does not exist: {input_path}")
+        print(f"Error: Input file does not exist: {args.input}")
+        print(f"   Searched locations:")
+        for path in searched_paths:
+            print(f"     - {path}")
         sys.exit(1)
     
     # Auto-detect type
@@ -114,7 +153,7 @@ Example usage:
     try:
         if args.type == 'dacpp':
             # DACPP test visualization
-            output_dir = args.output_dir or "result"
+            output_dir = args.output_dir or "result/dacpp_tests"
             visualizer = DACPPVisualizer(output_dir=output_dir)
             print(f"Output directory: {output_dir}")
             print()
@@ -127,7 +166,7 @@ Example usage:
         
         elif args.type == 'unit':
             # Unit test visualization
-            output_dir = args.output_dir or "result"
+            output_dir = args.output_dir or "result/unit_tests"
             visualizer = UnitTestVisualizer(output_dir=output_dir)
             print(f"Output directory: {output_dir}")
             print()
@@ -140,7 +179,7 @@ Example usage:
         
         elif args.type == 'dsl':
             # DSL test visualization (most important test in the project)
-            output_dir = args.output_dir or "result"
+            output_dir = args.output_dir or "result/dsl_tests"
             visualizer = DSLVisualizer(output_dir=output_dir)
             print(f"Output directory: {output_dir}")
             print("Warning: This is the most important test visualization in the project!")
