@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+pydac.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.venv
+pydac_env/
+*.env
+.env
+.env.local
+
+# PyDAC specific - Cache directories
+.pydac_cache/
+*.cache
+__pycache__/
+
+# PyDAC specific - Visualization results (images and JSON)
+result/
+test_plots/
+*.png
+*.jpg
+*.jpeg
+# JSON files in result directories (already covered by result/ above)
+# But also ignore coverage reports and test results JSON
+tests/coverage_report.json
+*.log
+
+# Documentation - Local only, not for GitHub
+VISUALIZATION_README.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Build artifacts
+*.o
+*.a
+*.out
+*.exe
+
+

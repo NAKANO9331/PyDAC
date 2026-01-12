@@ -1,0 +1,7 @@
+[
+  {
+    "directory": "/home/nakano9331/test/PyDAC-main/translator/tests/DFT1.0",
+    "command": "clang++ -std=c++17 -I/usr/include -I/usr/local/include -I/home/nakano9331/test/PyDAC-main/translator/dacppLib/include -I/home/nakano9331/test/PyDAC-main/translator/dpcppLib/include -I/home/nakano9331/test/PyDAC-main/translator/rewriter/include -I/home/nakano9331/test/PyDAC-main/translator/parser/include -I/home/nakano9331/test/PyDAC-main/translator/tests/DFT1.0 -c DFT.dac.cpp",
+    "file": "/home/nakano9331/test/PyDAC-main/translator/tests/DFT1.0/DFT.dac.cpp"
+  }
+]
